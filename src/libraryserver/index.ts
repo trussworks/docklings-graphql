@@ -15,6 +15,11 @@ const typeDefs = gql`
     publishedYear: Int 
   }
 
+  type Author {
+    name: String
+    books: [Book]
+  }
+
   input BookInput {
     title: String
     author: String
@@ -26,6 +31,7 @@ const typeDefs = gql`
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     books: [Book]
+    searchAuthors(nameSearch: String): [Author] 
   }
 
   type Mutation {
@@ -35,14 +41,16 @@ const typeDefs = gql`
 
 export function startServer(catalog: Catalog) {
     // Resolvers define the technique for fetching the types defined in the
-    // schema. This resolver retrieves books from the "books" array above.
+    // schema.
     const resolvers = {
       Query: {
         books: () => catalog.listBooks(),
+        searchAuthors: (_parent: any, args: { nameSearch: string }) => {
+            return catalog.searchAuthors(args.nameSearch)
+        }
       },
       Mutation: {
         createBook: (_parent: any, args: { book: Book }) => {
-            console.log("CRDAATING", args.book)
             catalog.addBook(args.book)
             return args.book
         }

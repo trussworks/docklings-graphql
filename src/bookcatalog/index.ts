@@ -5,6 +5,11 @@ export interface Book {
     publishedYear: number, 
 }
 
+export interface Author {
+    name: string,
+    books: Book[],
+}
+
 function newBook(title: string, author: string, publishedYear: number): Book {
     return {
         title,
@@ -29,8 +34,9 @@ function initialInventory(): Book[] {
 }
 
 export interface Catalog {
-    listBooks: () =>Book[],
+    listBooks: () => Book[],
     addBook: (b: Book) => void,
+    searchAuthors: (search: string) => Author[],
 }
 
 export function initCatalog(): Catalog {
@@ -42,7 +48,23 @@ export function initCatalog(): Catalog {
         },
         addBook: (b: Book) => {
             inventory.push(b)
-        } 
+        },
+        searchAuthors: (search: string) => {
+            // take the inventory and collect all the books who's author match the search string
+            const matchingBooks = inventory.filter(b => b.author.includes(search))
+            const authors: { [name: string]: Author} = {}
+            for (const book of matchingBooks) {
+                if (authors[book.author] === undefined) {
+                    authors[book.author] = {
+                        name: book.author,
+                        books: [],
+                    }
+                }
+                authors[book.author].books.push(book)
+            }
+
+            return Object.values(authors)
+        }
     }
 
 }
