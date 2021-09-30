@@ -68,4 +68,4 @@ Variables:
   * maybe do some calculations would help?
 * add a react front end that queries these things and displays
   * show how query flexibility gives power to the FE
-
+* add a REST API for comparison

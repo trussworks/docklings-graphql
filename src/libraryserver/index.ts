@@ -37,7 +37,7 @@ const typeDefs = gql`
   type Mutation {
     createBook(book: BookInput): Book
   }
-`;
+`
 
 export function startServer(catalog: Catalog) {
     // Resolvers define the technique for fetching the types defined in the
