@@ -47,6 +47,7 @@ export function startServer(catalog: Catalog) {
       Query: {
         books: () => catalog.listBooks(),
         searchAuthors: (_parent: any, args: { nameSearch: string }) => {
+            console.log("Resolving Author Search: ", args.nameSearch)
             return catalog.searchAuthors(args.nameSearch)
         }
       },
@@ -58,7 +59,7 @@ export function startServer(catalog: Catalog) {
       },
       Author: {
         books: (parent: Author) => {
-            console.log("BOOKS", parent)
+            console.log("Resolving Books For Author:", parent)
             return catalog.searchBooksByAuthor(parent.name)
         }
       }
