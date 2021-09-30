@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from 'apollo-server'
-import { Catalog, Book } from '../bookcatalog'
+import { Catalog, Book, Author } from '../bookcatalog'
 
 
 // A schema is a collection of type definitions (hence "typeDefs")
@@ -17,6 +17,7 @@ const typeDefs = gql`
 
   type Author {
     name: String
+    dob: Int
     books: [Book]
   }
 
@@ -53,6 +54,12 @@ export function startServer(catalog: Catalog) {
         createBook: (_parent: any, args: { book: Book }) => {
             catalog.addBook(args.book)
             return args.book
+        }
+      },
+      Author: {
+        books: (parent: Author) => {
+            console.log("BOOKS", parent)
+            return catalog.searchBooksByAuthor(parent.name)
         }
       }
     };

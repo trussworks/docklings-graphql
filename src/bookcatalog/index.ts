@@ -7,7 +7,7 @@ export interface Book {
 
 export interface Author {
     name: string,
-    books: Book[],
+    dob: number,
 }
 
 function newBook(title: string, author: string, publishedYear: number): Book {
@@ -16,6 +16,25 @@ function newBook(title: string, author: string, publishedYear: number): Book {
         author,
         publishedYear,
     }
+}
+
+function newAuthor(name: string, dob: number) {
+    return {
+        name,
+        dob,
+        books: []
+    }
+}
+
+function initialAuthors(): Author[] {
+    return [
+        newAuthor('Madeleine L\'Engle', 1918),
+        newAuthor('Frances Hodgson Burnett', 1849),
+        newAuthor('J. R. R. Tolkein', 1892),
+        newAuthor('Antoine de Saint-Exupéry', 1900),
+        newAuthor('Anna Sewell', 1820),
+        newAuthor('Beverly Cleary', 1916),
+    ]
 }
 
 function initialInventory(): Book[] {
@@ -36,11 +55,13 @@ function initialInventory(): Book[] {
 export interface Catalog {
     listBooks: () => Book[],
     addBook: (b: Book) => void,
+    searchBooksByAuthor: (search: string) => Book[],
     searchAuthors: (search: string) => Author[],
 }
 
 export function initCatalog(): Catalog {
     const inventory = initialInventory()
+    const authors = initialAuthors()
 
     return {
         listBooks: () => {
@@ -49,21 +70,15 @@ export function initCatalog(): Catalog {
         addBook: (b: Book) => {
             inventory.push(b)
         },
+        searchBooksByAuthor: (search: string) => {
+            const matchingBooks = inventory.filter(b => b.author.includes(search))
+            return matchingBooks
+        },
         searchAuthors: (search: string) => {
             // take the inventory and collect all the books who's author match the search string
-            const matchingBooks = inventory.filter(b => b.author.includes(search))
-            const authors: { [name: string]: Author} = {}
-            for (const book of matchingBooks) {
-                if (authors[book.author] === undefined) {
-                    authors[book.author] = {
-                        name: book.author,
-                        books: [],
-                    }
-                }
-                authors[book.author].books.push(book)
-            }
+            const matchingAuthors = authors.filter(a => a.name.includes(search))
 
-            return Object.values(authors)
+            return matchingAuthors
         }
     }
 

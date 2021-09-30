@@ -66,6 +66,9 @@ Variables:
 #### TODO
 * want to show how the resolver chain works a bit more, need multiple queries that resolve to a specific thing
   * maybe do some calculations would help?
+  * show how N+1 queries work
 * add a react front end that queries these things and displays
   * show how query flexibility gives power to the FE
 * add a REST API for comparison
+* Error handling
+* auth
