@@ -22,7 +22,6 @@ function newAuthor(name: string, dob: number) {
     return {
         name,
         dob,
-        books: []
     }
 }
 
