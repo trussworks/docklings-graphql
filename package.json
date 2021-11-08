@@ -10,7 +10,7 @@
   "private": false,
   "dependencies": {
     "@types/node": "^16.10.2",
-    "apollo-server": "^3.3.0",
+    "apollo-server": "^3.4.1",
     "graphql": "^15.6.0",
     "node": "^16.10.0",
     "nodemon": "^2.0.13",
